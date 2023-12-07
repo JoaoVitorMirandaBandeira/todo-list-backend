@@ -1,4 +1,4 @@
-class User {
+export default class User {
     constructor(    
         private _id:string,
         private _nome:string,
