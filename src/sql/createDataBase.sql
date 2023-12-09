@@ -12,5 +12,6 @@ CREATE TABLE todos(
     title VARCHAR(50) NOT NULL,
     status BOOLEAN NOT NULL,
     descricao VARCHAR(255) NOT NULL,
-    userId VARCHAR(36) FOREIGN KEY REFERENCES users(id)
+    userId VARCHAR(36),
+    FOREIGN KEY (userId) REFERENCES users(id)
 );

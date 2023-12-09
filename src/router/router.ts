@@ -9,5 +9,6 @@ router.get("/", () => {
   console.log("Rota home");
 });
 router.post("/create/user", userController.createUser);
+router.post("/login/user", userController.login);
 
 export default router;
