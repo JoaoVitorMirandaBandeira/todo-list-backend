@@ -2,14 +2,14 @@ import InterfaceUserService from "../Interface/IntefaceUserService";
 import User from "../Model/User";
 import connection from "../configs/connection";
 
-class UserService implements InterfaceUserService {
+export default class UserService implements InterfaceUserService {
   findByEmail = async (email: string): Promise<User> => {
     try {
       const response = await connection("users")
         .select("*")
         .where("email", "=", email)
         .first();
-      if (response) return null;
+      if (!response) return null;
       const user = new User(
         response.id,
         response.nome,
@@ -23,15 +23,17 @@ class UserService implements InterfaceUserService {
   };
   insertUser = async (user: User): Promise<string> => {
     try {
-      const userResponse = (await connection("users")
-        .insert({
-          id: user.id,
-          nome: user.nome,
-          email: user.email,
-          senha: user.senha,
-        })
-        .returning("id")) as string;
-      return userResponse;
+      await connection("users").insert({
+        id: user.id,
+        nome: user.nome,
+        email: user.email,
+        senha: user.senha,
+      });
+      const userResponse = await connection("users")
+        .where({ email: user.email })
+        .select("id")
+        .first();
+      return userResponse.id as string;
     } catch (error) {
       throw new Error(error.message);
     }

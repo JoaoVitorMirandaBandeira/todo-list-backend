@@ -1,7 +1,13 @@
 import express from "express";
+import UserService from "../Service/UserService";
+import UserController from "../Controller/UserController";
+const router = express.Router();
+const userService = new UserService();
+const userController = new UserController(userService);
 
-const router = express.Router()
+router.get("/", () => {
+  console.log("Rota home");
+});
+router.post("/create/user", userController.createUser);
 
-router.get('/', () => {console.log("Rota home") })
-
-export default router
+export default router;
